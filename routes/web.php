@@ -18,7 +18,8 @@ Route::get('/', function () {
     return view('landing');
 })->name('landing');
 
-Route::get('/index', function () {
-    return view('index');
-})->name('index');
+Route::get('index', [AuthController::class, 'index'])->name('index');
+
 Route::resource('biodata', AuthController::class);
+
+Route::get('update', [AuthController::class, 'update'])->name('update');

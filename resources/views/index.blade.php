@@ -74,6 +74,7 @@
     <div class="hero-container" data-aos="fade-in" style="padding-right: 80px;">
       <h1>Kim Taehyung</h1>
       <p>I'm <span class="typed" data-typed-items="Web Developer, Mobile Programmer, UI/UX Designer"></span></p>
+      <a class="btn btn-primary btn-xl text-uppercase" href="{{ route('index') }}">CRUD</a>
     </div>
   </section><!-- End Hero -->
 
@@ -382,7 +383,7 @@
       </div>
     </section><!-- End Contact Section -->
 
-    <!-- ======= Services Section ======= -->
+    <!-- ======= Crud Section ======= -->
     <section id="crud" class="crud">
       <div class="container">
 
@@ -400,7 +401,7 @@
                             <label for="nama">Nama</label>
                             <input id="nama" type="text" class="form-control @error('nama') is-invalid @enderror"
                                 name="nama" value="{{ old('nama') }}" tabindex="1">
-                            @error('name')
+                            @error('nama')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
@@ -448,67 +449,61 @@
 
             <div class="card-footer bg-whitesmoke">
                 <button type="submit" class="btn btn-primary">Tambah</button>
+                <button type="submit" class="btn btn-primary">Edit</button>
             </div>
-            
         </form>
         
         <div class="card-body">
           <div class="row">
-              <div class="col-12">
-                  <div class="table-responsive">
-                      <table class="table table-striped">
-                          <thead>
-                              <tr>
-                                  <th>ID</th>
-                                  <th class="w-25">Nama</th>
-                                  <th>No HP</th>
-                                  <th class="w-25 text-center">Jenis Kelamin</th>
-                              </tr>
-                            </thead>
-                            {{-- <tbody>
-                              @foreach ($data as $item)
-                                  <tr>
-                                      <td>{{ $item->id }}</td>
-                                      <td>{{ $item->nama }}</td>
-                                      <td>{{ $item->alamat }}</td>
-                                      <td>{{ $item->no_hp }}</td>
-                                      <td>{{ $item->jenis_kelamin }}</td>
-                                      <td class="text-center">
-                                          <span
-                                              class="badge {{ $item->jenis_kelamin === 'L' ? 'badge-primary' : 'badge-warning' }}">
-                                              {{ $item->jenis_kelamin }}
-                                          </span>
-                                      </td>
-                                      <td class="text-center">
-                                          <a href="{{ route('biodata.show', $item->id) }}"
-                                              class="btn btn-sm btn-warning">
-                                              <i class="fas fa-eye"></i>
-                                          </a>
+            <div class="col-12">
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th class="w-25">Nama</th>
+                      <th class="w-25">Alamat</th>
+                      <th>No HP</th>
+                      <th class="w-25 text-center">Jenis Kelamin</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach ($data as $item)
+                      <tr>
+                        <td>{{ $item->id }}</td>
+                        <td>{{ $item->nama }}</td>
+                        <td>{{ $item->alamat }}</td>
+                        <td>{{ $item->no_hp }}</td>
+                        <td class="text-center">
+                          <span
+                            class="badge {{ $item->jenis_kelamin === 'L' ? 'badge-primary' : 'badge-warning' }}">
+                            {{ $item->jenis_kelamin }}
+                          </span>
+                        </td>
+                        <td class="text-center">
+                          <a href="{{ route('biodata.update', $item->id) }}"
+                            class="btn btn-sm btn-primary">
+                            <i class="fas fa-edit"></i>
+                          </a>
 
-                                          <a href="{{ route('biodata.edit', $item->id) }}"
-                                              class="btn btn-sm btn-primary">
-                                              <i class="fas fa-edit"></i>
-                                          </a>
-
-                                          <form action="{{ route('biodata.destroy', $item->id) }}" method="POST"
-                                              class="d-inline">
-                                              @csrf
-                                              @method('DELETE')
-                                              <button type="submit" class="btn btn-sm btn-danger btn-hapus">
-                                                  <i class="fas fa-trash"></i>
-                                              </button>
-                                          </form>
-                                      </td>
-                                  </tr>
-                              @endforeach --}}
-                          {{-- </tbody>
-                      </table>
-                  </div>
-                  {{ $data->links() }}
+                          <form action="{{ route('biodata.destroy', $item->id) }}" method="POST" class="d-inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-danger btn-hapus">
+                              <i class="fas fa-trash"></i>
+                            </button>
+                          </form>
+                        </td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                </table>
               </div>
-          </div> --}}
+                {{ $data->links() }}
+              </div>
+            </div>
           </div>
-      </div>
+        </div>
     </section><!-- End Services Section -->
 
   </main><!-- End #main -->

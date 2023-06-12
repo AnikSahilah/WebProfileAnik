@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 use App\Models\Biodata;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -13,8 +14,8 @@ class AuthController extends Controller
      */
     public function index()
     {
-        $data = Biodata::all();
-
+        $data = Biodata::paginate(10); 
+        
         return view('index', compact('data'));
     }
 
@@ -54,7 +55,8 @@ class AuthController extends Controller
      */
     public function show(string $id)
     {
-        return view('biodata.show', compact('biodata'));
+        $biodata = Biodata::findOrFail($id);
+        return view('update', compact('biodata'));
     }
 
     /**
@@ -68,26 +70,34 @@ class AuthController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        $request->validate([
-            'nama' => 'required',
-            'alamat' => 'required',
-            'no_hp' => 'required',
-            'jenis_kelamin' => 'required',
-        ]);
+    public function update(Request $request, $id)
+{
+    $request->validate([
+        'nama' => 'required',
+        'alamat' => 'required',
+        'no_hp' => 'required',
+        'jenis_kelamin' => 'required',
+    ]);
 
+    try {
         $biodata = Biodata::findOrFail($id);
-
-        $biodata->nama = $request->nama;
-        $biodata->alamat = $request->alamat;
-        $biodata->no_hp = $request->no_hp;
-        $biodata->jenis_kelamin = $request->jenis_kelamin;
-
-        $biodata->save();
-
-        return redirect()->back()->with('success', 'Data berhasil diperbarui.');
+    } catch (ModelNotFoundException $e) {
+        return redirect()->back()->with('error', 'Data tidak ditemukan.');
     }
+
+    $biodata->nama = $request->nama;
+    $biodata->alamat = $request->alamat;
+    $biodata->no_hp = $request->no_hp;
+    $biodata->jenis_kelamin = $request->jenis_kelamin;
+
+    $biodata->save();
+
+    return redirect()->back()->with('success', 'Data berhasil diperbarui.');
+}
+
+    
+
+
 
     /**
      * Remove the specified resource from storage.
